@@ -1,0 +1,86 @@
+services:
+  - type: web
+    name: vaishnavi-complaints-corner
+    env: node
+    plan: free # Change to 'starter' for production
+    region: oregon # Change as needed: oregon, ohio, singapore, frankfurt
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /ping
+
+    # Auto-deployment settings
+    autoDeploy: true
+    branch: main
+    repo: https://github.com/vaishnaviganesh25/Complaint-system.git
+
+    # Runtime settings
+    runtime: node
+    rootDir: .
+
+    # Scaling (free tier limited to 1 instance)
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+
+    # Environment variables
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      # MongoDB connection (you'll need to set this manually in Render dashboard)
+      - key: MONGODB_URI
+        sync: false # Set manually in dashboard for security
+
+      # Cloudinary settings (set manually in dashboard)
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+      # Next.js optimizations
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+
+    # Disk storage (for temporary files)
+    disk:
+      name: app-disk
+      mountPath: /tmp
+      sizeGB: 1
+
+    # Headers for security and performance
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: DENY
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /favicon.svg
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /_next/static/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+
+    # Build settings
+    buildFilter:
+      paths:
+        - app/**
+        - components/**
+        - lib/**
+        - public/**
+        - styles/**
+        - package.json
+        - package-lock.json
+        - next.config.mjs
+        - tailwind.config.ts
+        - tsconfig.json
+      ignoredPaths:
+        - README.md
+        - .env.example
+        - docs/**
