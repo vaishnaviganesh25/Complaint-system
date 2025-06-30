@@ -31,6 +31,7 @@ import { gsap } from "gsap"
 import { LogoutModal } from "@/components/LogoutModal"
 import { useWorkspaces, useNotes, usePins } from "@/hooks/useApi"
 
+
 interface Note {
   id: string
   components: Array<{
@@ -1172,15 +1173,29 @@ input[type="password"] {
         </SmartDashboard>
       </main>
 
-      {/* Footer */}
-      <footer className="bg-pink-50/90 backdrop-blur-lg border-t-2 border-pink-200 py-2 sm:py-3">
-        <div className="container mx-auto px-2 sm:px-4 text-center">
-          <div className="flex items-center justify-center gap-2">
-            <CatSvg className="w-4 h-4 sm:w-5 sm:h-5" />
-            <p className="text-pink-500 text-xs sm:text-sm font-medium">
-              Dashboard: {typeof window !== 'undefined' ? `${window.innerWidth || 1200} x ${window.innerHeight || 800}` : '1200 x 800'}
-            </p>
-            <SleepyCatSvg className="w-4 h-4 sm:w-5 sm:h-5" />
+      {/* Footer - Restored, thin, transparent, dark pink border, popping heart */}
+      <footer className="w-full fixed left-0 bottom-0 z-50 bg-gradient-to-r from-pink-100/70 via-fuchsia-100/60 to-red-100/60 backdrop-blur-xl shadow-2xl py-0.5 sm:py-0.5 min-h-[32px]">
+        <div className="container mx-auto px-2 sm:px-4 flex flex-col items-center justify-center gap-0">
+          <div className="flex items-center justify-center gap-2 h-[22px]">
+            <CatSvg className="w-4 h-4 sm:w-5 sm:h-5 drop-shadow-lg" />
+            <SleepyCatSvg className="w-4 h-4 sm:w-5 sm:h-5 drop-shadow-lg" />
+          </div>
+          <div className="flex items-center justify-center gap-2 mt-0">
+            <span className="footer-signature flex items-center text-xs sm:text-sm font-extrabold tracking-wide animate-gradient-text" style={{
+              fontFamily: 'Dancing Script, Great Vibes, Parisienne, Pacifico, Brush Script MT, cursive',
+              background: 'linear-gradient(90deg, #ffb6d5, #fbc2eb, #ffb6d5)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              textShadow: '0 1px 8px #ffd6e0, 0 1px 0 #fff',
+              filter: 'drop-shadow(0 1px 4px #fbc2ebcc)'
+            }}>
+              <span className="mr-1 animate-heart-pop flex items-center" style={{lineHeight: 1}}>
+                <svg className="w-4 h-4 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style={{display: 'block'}}>
+                  <path d="M12 21s-6.2-5.2-8.5-8.1C1.2 10.2 2.1 7 5 5.7c2.1-.9 4.1.3 5 1.7 0 0 2.1-2.6 5-1.7 2.9 1.3 3.8 4.5 1.5 7.2C18.2 15.8 12 21 12 21z" fill="#FF69B4" stroke="#F472B6" strokeWidth="1.5"/>
+                </svg>
+              </span>
+              Made With Love by Harshendra
+            </span>
           </div>
         </div>
       </footer>

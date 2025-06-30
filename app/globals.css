@@ -160,3 +160,110 @@ textarea::-moz-selection,
   background-color: #ff69b4 !important;
   color: white !important;
 }
+
+/* Heart jump animation for footer */
+.animate-heart-jump {
+  display: inline-block;
+  animation: heart-jump 1.2s infinite;
+}
+@keyframes heart-jump {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  10% {
+    transform: translateY(-6px) scale(1.2);
+  }
+  20% {
+    transform: translateY(-12px) scale(1.3);
+  }
+  30% {
+    transform: translateY(-6px) scale(1.2);
+  }
+  40% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Gradient text animation for footer signature */
+@keyframes gradient-move {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+.animate-gradient-text {
+  background-size: 200% 200%;
+  animation: gradient-move 3s linear infinite alternate;
+}
+
+/* Sunflower spin animation for footer */
+@keyframes sunflower-spin {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  60% {
+    transform: rotate(20deg) scale(1.1);
+  }
+  80% {
+    transform: rotate(-10deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+.animate-sunflower-spin {
+  display: inline-block;
+  animation: sunflower-spin 2.2s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+/* Enhanced dreamy romantic background */
+body,
+html {
+  background: linear-gradient(
+    135deg,
+    #fff1f9 0%,
+    #ffe4ec 30%,
+    #fbc2eb 60%,
+    #ffd6e0 80%,
+    #f9a8d4 100%
+  ) !important;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.dashboard-page {
+  min-height: 100vh;
+  background: linear-gradient(
+    135deg,
+    #fff1f9 0%,
+    #ffe4ec 30%,
+    #fbc2eb 60%,
+    #ffd6e0 80%,
+    #f9a8d4 100%
+  ) !important;
+}
+
+/* Popping heart animation for footer */
+@keyframes heart-pop {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.3);
+  }
+  50% {
+    transform: scale(0.9);
+  }
+  70% {
+    transform: scale(1.15);
+  }
+}
+.animate-heart-pop {
+  display: inline-block;
+  animation: heart-pop 1.2s infinite;
+}
