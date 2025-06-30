@@ -31,7 +31,6 @@ import { gsap } from "gsap"
 import { LogoutModal } from "@/components/LogoutModal"
 import { useWorkspaces, useNotes, usePins } from "@/hooks/useApi"
 
-
 interface Note {
   id: string
   components: Array<{
@@ -91,6 +90,9 @@ export default function ComplaintsCorner() {
   const heartTrailRef = useRef<HTMLDivElement[]>([])
   const [showLogoutModal, setShowLogoutModal] = useState(false)
   const [isTabVisible, setIsTabVisible] = useState(true)
+  const [showSurprize, setShowSurprize] = useState(false)
+  const [iframeLoading, setIframeLoading] = useState(false)
+  const [isFullscreen, setIsFullscreen] = useState(false)
 
   // API hooks
   const { workspaces, loading, error, setWorkspaces, fetchWorkspaces, createWorkspace } = useWorkspaces()
@@ -836,6 +838,19 @@ export default function ComplaintsCorner() {
     updateNote(id, { comments: [...note.comments, newComment] })
   }
 
+  useEffect(() => {
+    if (showSurprize) {
+      // Only add if not already present
+      if (!document.querySelector('script[data-spline-viewer]')) {
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = 'https://unpkg.com/@splinetool/viewer@1.10.16/build/spline-viewer.js';
+        script.setAttribute('data-spline-viewer', 'true');
+        document.body.appendChild(script);
+      }
+    }
+  }, [showSurprize]);
+
   if (showLogin) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-pink-100 via-pink-50 to-pink-200 flex items-center justify-center p-2 sm:p-4 relative overflow-hidden login-page">
@@ -1066,6 +1081,12 @@ input[type="password"] {
               )}
               
               <Button
+                onClick={() => { setShowSurprize(true); setIframeLoading(true); }}
+                className="bg-gradient-to-r from-pink-400 via-fuchsia-400 to-pink-500 text-white font-bold px-4 py-2 rounded-full shadow-lg animate-bounce transition-all duration-300 hover:scale-110 mr-2"
+              >
+                🎁 Suprize!
+              </Button>
+              <Button
                 onClick={handleLogout}
                 variant="outline"
                 className="border-pink-300 text-pink-600 hover:bg-pink-100 text-sm w-full sm:w-auto"
@@ -1202,6 +1223,51 @@ input[type="password"] {
 
       {/* Logout Modal */}
       <LogoutModal isOpen={showLogoutModal} onClose={() => setShowLogoutModal(false)} />
+
+      {showSurprize && (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40">
+          <div
+            className={`relative flex flex-col items-center shadow-2xl rounded-2xl p-2 transition-all duration-300 ${isFullscreen ? 'w-screen h-screen' : ''}`}
+            style={{
+              width: isFullscreen ? '100vw' : '80vw',
+              height: isFullscreen ? '100vh' : '80vh',
+              background: 'linear-gradient(135deg, #ffe4ec 0%, #fbc2eb 50%, #f9a8d4 100%)',
+              boxShadow: '0 8px 32px 0 rgba(255, 105, 180, 0.25)',
+              border: '2px solid #f472b6',
+            }}
+          >
+            <button
+              onClick={() => setShowSurprize(false)}
+              className="absolute top-2 right-2 text-pink-500 hover:text-pink-700 text-2xl font-bold z-10"
+              aria-label="Close"
+            >
+              ×
+            </button>
+            <button
+              onClick={() => setIsFullscreen(f => !f)}
+              className="absolute top-2 left-2 text-pink-500 hover:text-pink-700 text-lg font-bold z-10 bg-white/70 rounded-full px-3 py-1 shadow"
+              aria-label="Toggle Fullscreen"
+            >
+              {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+            </button>
+            {iframeLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-white/60 z-10 rounded-2xl">
+                <div className="w-12 h-12 border-4 border-pink-300 border-t-pink-500 rounded-full animate-spin"></div>
+              </div>
+            )}
+            <iframe
+              src="https://my.spline.design/beeflyingflowerwebheroglbanimation-fKGLHbiTPp5b3xOJ3ncxbimm/"
+              frameBorder="0"
+              width="100%"
+              height="100%"
+              style={{ borderRadius: '1rem', background: 'transparent', minHeight: 300 }}
+              allowFullScreen
+              title="Surprize Spline 3D Model"
+              onLoad={() => setIframeLoading(false)}
+            ></iframe>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
